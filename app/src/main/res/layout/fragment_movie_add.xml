@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/background_dark"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/ad_movie"
+            android:textColor="@color/text_primary"
+            android:textSize="28sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_text"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:textColor="@color/text_secondary"
+            />
+
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:inputType="text"
+            android:ems="10"
+            android:hint="@string/movie_title"
+            android:textColorHint="@color/text_secondary"
+            android:textColor="@color/text_primary"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:background="@drawable/edit_text"
+             />
+        <EditText
+            android:id="@+id/editTextYear"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/year"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text"/>
+        <EditText
+            android:id="@+id/editTextGenre"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/genre"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text"
+            />
+
+        <EditText
+            android:id="@+id/editTextDuration"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/duration"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text"
+            />
+
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:minLines="3"
+            android:inputType="textMultiLine"
+            android:hint="@string/description"
+            android:textColorHint="@color/text_secondary"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:textColor="@color/text_primary"
+            android:background="@drawable/edit_text"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            >
+            <Button
+                android:id="@+id/btn_selectImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_weight="1"
+                android:text="@string/image"
+
+                android:backgroundTint="@color/color_secondary"
+                android:textColor="@color/text_primary"
+                 />
+            <Space
+                android:layout_width="24dp"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_selectTrailer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/trailer"
+
+                android:backgroundTint="@color/color_secondary"
+                android:textColor="@color/text_primary"
+                />
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/btn_saveMovie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/save_movie"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/color_primary"
+            android:textColor="@color/text_primary"
+            android:padding="12dp"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+
+
+</ScrollView>

@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Movie_catalog" parent="Theme.Material3.DynamicColors.Dark.NoActionBar">
+        <item name="android:background">@color/background_dark</item>
+        <item name="android:titleTextStyle">@style/CustomActionBarTitleText</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary</item>
+        <item name="android:colorBackground">@color/color_primary</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:editTextColor">@color/text_primary</item>
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
+    </style>
+
+    <style name="Theme.Movie_catalog" parent="Base.Theme.Movie_catalog" >
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+</resources>
