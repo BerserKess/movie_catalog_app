@@ -14,6 +14,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import br.com.movie_catalog.classes.Movie
+import br.com.movie_catalog.database.MovieDAO
 
 class MovieAddFragment : Fragment(){
     private lateinit var editTextName: EditText
@@ -24,6 +25,7 @@ class MovieAddFragment : Fragment(){
     private lateinit var btnTrailer: Button
     private lateinit var btnSave: Button
     private lateinit var editTextDuration: EditText
+    private lateinit var movieDAO: MovieDAO
 
 
     private var uriImage: Uri? = null
@@ -54,6 +56,9 @@ class MovieAddFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         val  view = inflater.inflate(R.layout.fragment_movie_add, container, false)
+        // INICIAR BD
+        movieDAO = MovieDAO(requireContext())
+
 
         editTextName = view.findViewById(R.id.editTextTitle)
         editTextDescription = view.findViewById(R.id.editTextDescription)
@@ -91,12 +96,31 @@ class MovieAddFragment : Fragment(){
                 year != null && genre.isNotBlank() && duration != null &&
                 uriImage != null && uriTrailer != null){
 
-                val movie = Movie(name, description, uriImage!!, uriTrailer!!, year, genre, duration)
-                listener?.onMovieAdded(movie)
-                Toast.makeText(requireContext(), "Filme salvo com sucesso!", Toast.LENGTH_SHORT).show()
-                requireActivity().findViewById<FrameLayout>(R.id.fragmentContainer)
-                    .setBackgroundColor(Color.TRANSPARENT)
-                parentFragmentManager.popBackStack() // FECHAR FRAGMENTO
+                val movie = Movie(
+                    id = 0,
+                    title = name,
+                    description = description,
+                    imageUri = uriImage!!,
+                    trailerUri = uriTrailer!!,
+                    year = year,
+                    genre = genre,
+                    durationMinutes = duration
+                )
+                val result = movieDAO.addMovie(movie)
+                if (result != -1L) {
+                    Toast.makeText(requireContext(),"Filme salvo com sucesso", Toast.LENGTH_SHORT).show()
+                    listener?.onMovieAdded(movie)
+                    requireActivity().findViewById<FrameLayout>(R.id.fragmentContainer)
+                        .setBackgroundColor(Color.TRANSPARENT)
+                    parentFragmentManager.popBackStack()
+                } else {
+                    Toast.makeText(requireContext(), "Erro ao salvar no database", Toast.LENGTH_SHORT).show()
+                }
+//                listener?.onMovieAdded(movie)
+//                Toast.makeText(requireContext(), "Filme salvo com sucesso!", Toast.LENGTH_SHORT).show()
+//                requireActivity().findViewById<FrameLayout>(R.id.fragmentContainer)
+//                    .setBackgroundColor(Color.TRANSPARENT)
+//                parentFragmentManager.popBackStack() // FECHAR FRAGMENTO
             } else {
                 Toast.makeText(requireContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show()
             }

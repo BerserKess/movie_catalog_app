@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import br.com.movie_catalog.R
+import br.com.movie_catalog.database.MovieDAO
 
 class MovieActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,46 +37,80 @@ class MovieActivity : AppCompatActivity() {
         val txtGenre: TextView = findViewById(R.id.txt_genre)
         val txtDuration: TextView = findViewById(R.id.txt_duration)
 
+        // VERIFICA SE O FILME EXISTE NO DB
+        val movieId = intent.getIntExtra("movieId", -1)
+        if (movieId == -1) {
+            Toast.makeText(this, "Filme não encontrado", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
-        // PEGA O VALOR EM STRING E CONVERTE PARA URI
-        val imageUriString = intent.getStringExtra("image")
-        val trailerUriString = intent.getStringExtra("trailer")
-        val imageUri = imageUriString?.toUri()
-        val trailerUri = trailerUriString?.toUri()
+        val movieDao = MovieDAO(this)
+        val movie = movieDao.getMovieById(movieId)
 
+        if (movie == null){
+            Toast.makeText(this, "Filme não encontrado", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
-        val title = intent.getStringExtra("title")
-        val description = intent.getStringExtra("description")
-        val year = intent.getIntExtra("year", 0)
-        val genre = intent.getStringExtra("genre")
-        val duration = intent.getIntExtra("duration", 0)
+        titleText.text = movie.title
+        descriptionText.text = movie.description
+        txtGenre.text = movie.genre.uppercase()
 
-        titleText.text = title
-        descriptionText.text = description
-        txtGenre.text = genre?.uppercase()
-
-        // DEIXAR TEXTOS EM NEGRITO
-        val yearText = "Ano: $year"
-        val spannableYear = SpannableString(yearText)
-        spannableYear.setSpan(
-            StyleSpan(Typeface.BOLD),
-            0,
-            3,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+        val yearText = "Ano: ${movie.year}"
+        val spannableYear = SpannableString(yearText).apply {
+            setSpan(StyleSpan(Typeface.BOLD), 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
         txtYear.text = spannableYear
 
-        val durationText = "Duração: $duration minutos"
-        val spannableDuration = SpannableString(durationText)
-        spannableDuration.setSpan(
-            StyleSpan(Typeface.BOLD),
-            0,
-            7,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+        val durationText = "Duração: ${movie.durationMinutes} minutos"
+        val spannableDuration = SpannableString(durationText).apply {
+            setSpan(StyleSpan(Typeface.BOLD), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
         txtDuration.text = spannableDuration
 
-        imageMovie.setImageURI(imageUri)
+        imageMovie.setImageURI(movie.imageUri)
+
+//        // PEGA O VALOR EM STRING E CONVERTE PARA URI
+//        val imageUriString = intent.getStringExtra("image")
+//        val trailerUriString = intent.getStringExtra("trailer")
+//        val imageUri = imageUriString?.toUri()
+//        val trailerUri = trailerUriString?.toUri()
+//
+//
+//        val title = intent.getStringExtra("title")
+//        val description = intent.getStringExtra("description")
+//        val year = intent.getIntExtra("year", 0)
+//        val genre = intent.getStringExtra("genre")
+//        val duration = intent.getIntExtra("duration", 0)
+
+//        titleText.text = title
+//        descriptionText.text = description
+//        txtGenre.text = genre?.uppercase()
+
+        // DEIXAR TEXTOS EM NEGRITO
+//        val yearText = "Ano: $year"
+//        val spannableYear = SpannableString(yearText)
+//        spannableYear.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            0,
+//            3,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        txtYear.text = spannableYear
+//
+//        val durationText = "Duração: $duration minutos"
+//        val spannableDuration = SpannableString(durationText)
+//        spannableDuration.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            0,
+//            7,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        txtDuration.text = spannableDuration
+
+        //imageMovie.setImageURI(imageUri)
 
 
         val fadeIn = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.fade_in)
@@ -85,9 +120,10 @@ class MovieActivity : AppCompatActivity() {
         btnPlay.startAnimation(zoomIn)
 
         btnPlay.setOnClickListener {
+            val trailerUri = movie.trailerUri
 
             if ( trailerUri != null) {
-                val videoTeste = "android.resource://${packageName}/${R.raw.trailer}".toUri()
+                //val videoTeste = "android.resource://${packageName}/${R.raw.trailer}".toUri()
                 videoView.visibility = View.VISIBLE
                 btnCloseVideo.visibility = View.VISIBLE
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE // FORÇAR ROTAÇÃO
@@ -117,11 +153,11 @@ class MovieActivity : AppCompatActivity() {
         }
 
         btnCloseVideo.setOnClickListener {
-            val videoView: VideoView = findViewById(R.id.video_view)
-            val imageMovie: ImageView = findViewById(R.id.image_movie)
-            val btnPlay: ImageButton = findViewById(R.id.btn_play)
-            val titleText: TextView = findViewById(R.id.txt_title)
-            val descriptionText: TextView = findViewById(R.id.txt_description)
+//            val videoView: VideoView = findViewById(R.id.video_view)
+//            val imageMovie: ImageView = findViewById(R.id.image_movie)
+//            val btnPlay: ImageButton = findViewById(R.id.btn_play)
+//            val titleText: TextView = findViewById(R.id.txt_title)
+//            val descriptionText: TextView = findViewById(R.id.txt_description)
             val scrollView: ScrollView = findViewById(R.id.scroll_view)
 
             videoView.stopPlayback()
